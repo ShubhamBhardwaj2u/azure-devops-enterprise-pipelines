@@ -1,0 +1,5 @@
+variables:
+  environmentName: 'Prod'
+  approvalRequired: true
+  deploymentSlot: 'production'
+  logLevel: 'error'
