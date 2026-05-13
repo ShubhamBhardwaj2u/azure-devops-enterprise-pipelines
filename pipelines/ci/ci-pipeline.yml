@@ -1,0 +1,31 @@
+trigger:
+  branches:
+    include:
+      - develop
+      - main
+      - release/*
+
+pr: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  projectName: 'enterprise-devops-sample'
+  buildConfiguration: 'Release'
+
+stages:
+- stage: Build
+  displayName: 'Build and Validate'
+
+  jobs:
+  - job: Build_Application
+    displayName: 'Enterprise Build Job'
+
+    steps:
+    - checkout: self
+
+    - template: ../../templates/build/build-template.yml
+      parameters:
+        projectName: $(projectName)
+        buildConfiguration: $(buildConfiguration)
