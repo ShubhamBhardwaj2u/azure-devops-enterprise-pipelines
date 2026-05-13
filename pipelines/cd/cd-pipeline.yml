@@ -1,0 +1,61 @@
+trigger: none
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  artifactName: 'enterprise-devops-sample-artifact'
+
+stages:
+- stage: Deploy_Dev
+  displayName: 'Deploy to Dev'
+
+  jobs:
+  - deployment: Deploy_Dev
+    displayName: 'Dev Deployment'
+    environment: 'Dev'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../../templates/deploy/deploy-template.yml
+            parameters:
+              environmentName: 'Dev'
+              artifactName: $(artifactName)
+              deploymentStrategy: 'standard'
+
+- stage: Deploy_UAT
+  displayName: 'Deploy to UAT'
+  dependsOn: Deploy_Dev
+
+  jobs:
+  - deployment: Deploy_UAT
+    displayName: 'UAT Deployment'
+    environment: 'UAT'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../../templates/deploy/deploy-template.yml
+            parameters:
+              environmentName: 'UAT'
+              artifactName: $(artifactName)
+              deploymentStrategy: 'approval-controlled'
+
+- stage: Deploy_Prod
+  displayName: 'Deploy to Production'
+  dependsOn: Deploy_UAT
+
+  jobs:
+  - deployment: Deploy_Prod
+    displayName: 'Production Deployment'
+    environment: 'Prod'
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+          - template: ../../templates/deploy/deploy-template.yml
+            parameters:
+              environmentName: 'Prod'
+              artifactName: $(artifactName)
+              deploymentStrategy: 'approval-controlled'
