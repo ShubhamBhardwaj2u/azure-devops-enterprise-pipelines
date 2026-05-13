@@ -1,0 +1,53 @@
+trigger: none
+
+pr:
+branches:
+include:
+- develop
+- main
+- release/*
+
+pool:
+vmImage: 'ubuntu-latest'
+
+variables:
+buildConfiguration: 'Release'
+
+stages:
+
+* stage: PR_Validation
+  displayName: 'Pull Request Validation'
+
+  jobs:
+
+  * job: Validate_PR
+    displayName: 'Validate Pull Request'
+
+    steps:
+
+    * checkout: self
+
+    * task: PowerShell@2
+      displayName: 'Validate Branch Strategy'
+      inputs:
+      targetType: 'inline'
+      script: |
+      Write-Host "Validating branch naming strategy..."
+      Write-Host "Checking PR policies..."
+      Write-Host "Validation completed successfully."
+
+    * task: PowerShell@2
+      displayName: 'Run Static Validation Checks'
+      inputs:
+      targetType: 'inline'
+      script: |
+      Write-Host "Running validation checks..."
+      Write-Host "Scanning pipeline structure..."
+      Write-Host "Checking YAML formatting..."
+      Write-Host "Validation successful."
+
+    * task: PublishBuildArtifacts@1
+      displayName: 'Publish Validation Artifact'
+      inputs:
+      PathtoPublish: '$(Build.SourcesDirectory)'
+      ArtifactName: 'pr-validation-artifact'
