@@ -1,0 +1,5 @@
+variables:
+  environmentName: 'Dev'
+  approvalRequired: false
+  deploymentSlot: 'development'
+  logLevel: 'debug'
