@@ -21,27 +21,9 @@ This repository demonstrates modern DevOps practices aligned with enterprise del
 
 # Architecture Overview
 
-```text
-Feature Branch
-      │
-      ▼
-Pull Request Validation
-      │
-      ▼
-CI Pipeline Execution
-      │
-      ▼
-Artifact Generation
-      │
-      ▼
-Dev Deployment
-      │
-      ▼
-UAT Deployment + Approval Gates
-      │
-      ▼
-Production Deployment
-```
+The repository follows a scalable enterprise CI/CD model using Azure DevOps pipelines, reusable YAML templates, environment-based deployments, and release governance controls.
+
+![Enterprise CI/CD Architecture](diagrams/enterprise-cicd-architecture.png)
 
 ---
 
