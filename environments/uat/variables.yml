@@ -1,0 +1,5 @@
+variables:
+  environmentName: 'UAT'
+  approvalRequired: true
+  deploymentSlot: 'user-acceptance'
+  logLevel: 'info'
